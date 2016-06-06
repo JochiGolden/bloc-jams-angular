@@ -8,13 +8,12 @@
   z-index: 100;
 }
 
-.player-bar .main-controls div {
-  display: inline-block;
+.player-bar a {
   font-size: 1.1rem;
   vertical-align: middle;
 }
 
-.player-bar .main-controls div, .player-bar .main-controls div:hover {
+.player-bar a, .player-bar a:hover {
   color: white;
   cursor: pointer;
   text-decoration: none;
