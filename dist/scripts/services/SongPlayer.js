@@ -40,20 +40,29 @@
       currentSong = song;
     }
     
+    // @function playSong
+    // @description Play audio file and toggle
+    //              or set .playing attribute on song parameter
+    
+    function playSong(song) {
+      currentBuzzObject.play();
+      song.playing = true;
+    }
+    
     // @function play
-    // @description play currentBuzzObject, toggle play icon
+    // @description Check for song change.
+    //              If playing new song then set song.
+    //              Then play song.
     // @parameter {Object} song
     
     songPlayer.play = function (song) {
       if (currentSong !== song) {
         setSong(song);
-        currentBuzzObject.play();
-        song.playing = true;
+        playSong(song);
         
       } else if (currentSong === song) {
         if (currentBuzzObject.isPaused()) {
-          currentBuzzObject.play();
-          song.playing = true;
+          playSong(song);
         }
       }
     };
