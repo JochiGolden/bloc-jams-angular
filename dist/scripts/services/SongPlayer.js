@@ -7,20 +7,22 @@
   // @returns {Object}
   
   function SongPlayer(Fixtures) {
+
+// Private Attributes
+// ---
     
     // @attribute setSong
     // @description instance to return
     // @type {Object}
     //
-    // @attribute currentAlbum
-    // @description Stores the current album
-    // @type {object}
-    //
     // @attribute currentBuzzObject
     // @description instance of buzz audio file loaded from the fixtures service
     // @type {Object}
     
-    var songPlayer = {}, currentAlbum = Fixtures.getAlbum(), currentBuzzObject = null;
+    var songPlayer = {}, currentBuzzObject = null;
+    
+// Private Functions
+// ---
     
     // @function setSong
     // @description Stops currently playing song and loads new audio file as currentBuzzObject
@@ -45,14 +47,8 @@
     // @parameter {Object} song
     
     function getSongIndex(song) {
-      return currentAlbum.songs.indexOf(song);
+      return songPlayer.currentAlbum.songs.indexOf(song);
     }
-    
-    // @attribute currentSong
-    // @description Access the song property analog of the fixtures service
-    // @type {Property}
-    
-    songPlayer.currentSong = null;
     
     // @function playSong
     // @description Play audio file and toggle
@@ -63,11 +59,36 @@
       song.playing = true;
     }
     
+    // @function stopSong
+    // @description Stop audio playback and toggle
+    //              or set .playing attribute on song parameter
+    
+    function stopSong(song) {
+      currentBuzzObject.stop();
+      song.playing = null;
+    }
+
+// Public Attributes
+// ---
+
+    // @attribute currentSong
+    // @description Access the song property analog of the fixtures service
+    // @type {Property}
+    //
+    // @attribute currentAlbum
+    // @description Stores the current album
+    // @type {object}
+    
+    songPlayer.currentSong = null;
+    songPlayer.currentAlbum = Fixtures.getAlbum();
+
+// Public Functions
+// ---
+    
     // @function play
     // @description Check for song change.
     //              If playing new song then set song.
     //              Then play song.
-    // @parameter {Object} song
     
     songPlayer.play = function (song) {
       song = song || songPlayer.currentSong;
@@ -95,15 +116,34 @@
     // @function previous
     // @description Skip back and play the previous song
     
-    songPlayer.previous = function (song) {
-      var currentSongIndex = getSongIndex(songPlayer.currentSong);
+    songPlayer.previous = function () {
+      var currentSongIndex = getSongIndex(songPlayer.currentSong),
+          song = songPlayer.currentSong;
       currentSongIndex -= 1;
+      console.log('songIndex: ' + currentSongIndex);
       
       if (currentSongIndex < 0) {
-        currentBuzzObject.stop();
-        songPlayer.currentSong.playing = null;
+        stopSong(song);
       } else {
-        song = currentAlbum.songs[currentSongIndex];
+        song = songPlayer.currentAlbum.songs[currentSongIndex];
+        setSong(song);
+        playSong(song);
+      }
+    };
+    
+    // @function next
+    // @description Skip forward and play the next song
+    
+    songPlayer.next = function () {
+      var currentSongIndex = getSongIndex(songPlayer.currentSong),
+          song = songPlayer.currentSong;
+      currentSongIndex += 1;
+      console.log('songIndex: ' + currentSongIndex);
+      
+      if (currentSongIndex > songPlayer.currentAlbum.songs.length - 1) {
+        stopSong(song);
+      } else {
+        song = songPlayer.currentAlbum.songs[currentSongIndex];
         setSong(song);
         playSong(song);
       }
