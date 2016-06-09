@@ -118,9 +118,8 @@
     
     songPlayer.previous = function () {
       var currentSongIndex = getSongIndex(songPlayer.currentSong),
-          song = songPlayer.currentSong;
+        song = songPlayer.currentSong;
       currentSongIndex -= 1;
-      console.log('songIndex: ' + currentSongIndex);
       
       if (currentSongIndex < 0) {
         stopSong(song);
@@ -138,7 +137,6 @@
       var currentSongIndex = getSongIndex(songPlayer.currentSong),
           song = songPlayer.currentSong;
       currentSongIndex += 1;
-      console.log('songIndex: ' + currentSongIndex);
       
       if (currentSongIndex > songPlayer.currentAlbum.songs.length - 1) {
         stopSong(song);
