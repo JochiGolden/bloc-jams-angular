@@ -1,4 +1,4 @@
-(function (Fixtures) {
+(function ($rootScope, Fixtures) {
   
   "use strict";
   
@@ -6,7 +6,7 @@
   // @description manage audio playback and UI update
   // @returns {Object}
   
-  function SongPlayer(Fixtures) {
+  function SongPlayer($rootScope, Fixtures) {
 
 // Private Attributes
 // ---
@@ -37,6 +37,12 @@
       currentBuzzObject = new buzz.sound(song.audioUrl, {
         formats: ['mp3'],
         preload: true
+      });
+      
+      currentBuzzObject.bind('timeupdate', function() {
+        $rootScope.$apply(function() {
+          songPlayer.currentTime = currentBuzzObject.getTime();
+        });
       });
       
       songPlayer.currentSong = song;
@@ -72,14 +78,20 @@
 // ---
 
     // @attribute currentSong
-    // @description Access the song property analog of the fixtures service
+    // @description Song property of the Fixtures service
     // @type {Property}
+    //
+    // @attribute currentTime
+    // @description Current playback time on current song
+    //              (in seconds)
+    // @type {Number}
     //
     // @attribute currentAlbum
     // @description Stores the current album
-    // @type {object}
+    // @type {Object}
     
     songPlayer.currentSong = null;
+    songPlayer.currentTime = null;
     songPlayer.currentAlbum = Fixtures.getAlbum();
 
 // Public Functions
@@ -147,11 +159,23 @@
       }
     };
     
+    // @function setCurrentTime
+    // @desctiption Update sound file to skip to the proper
+    //              time in song when UI fires an event.
+    // @parameter {Number} time
+    
+    songPlayer.setCurrentTime = function (time) {
+      if (currentBuzzObject) {
+        console.log(time);
+        currentBuzzObject.setTime(time);
+      }
+    }
+    
     return songPlayer;
   }
   
   angular
     .module('blocJams')
-    .factory('SongPlayer', SongPlayer);
+    .factory('SongPlayer', ['$rootScope', 'Fixtures', SongPlayer]);
   
 }());
