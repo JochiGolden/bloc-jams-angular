@@ -30,7 +30,8 @@
           { title: 'Pink', duration: 153.14, audioUrl: '/assets/music/pink' },
           { title: 'Magenta', duration: 374.22, audioUrl: '/assets/music/magenta' },
           { title: 'Cerulean', duration: 203, audioUrl: '/assets/music/cerulean' },
-          { title: 'Yellow', duration: 194, audioUrl: '/assets/music/yellow' }
+          { title: 'Yellow', duration: 194, audioUrl: '/assets/music/yellow' },
+          { title: 'Burgundy', duration: 251, audioUrl: '/assets/music/burgundy' }
         ]
       },
         
