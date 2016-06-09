@@ -42,6 +42,7 @@
       currentBuzzObject.bind('timeupdate', function() {
         $rootScope.$apply(function() {
           songPlayer.currentTime = currentBuzzObject.getTime();
+          songPlayer.volume = currentBuzzObject.getVolume();
         });
       });
       
@@ -89,10 +90,15 @@
     // @attribute currentAlbum
     // @description Stores the current album
     // @type {Object}
+    //
+    // @attribute volume
+    // @description Current song volume
+    // @type {Number}
     
     songPlayer.currentSong = null;
     songPlayer.currentTime = null;
     songPlayer.currentAlbum = Fixtures.getAlbum();
+    songPlayer.volume = 80;
 
 // Public Functions
 // ---
@@ -166,10 +172,19 @@
     
     songPlayer.setCurrentTime = function (time) {
       if (currentBuzzObject) {
-        console.log(time);
         currentBuzzObject.setTime(time);
       }
-    }
+    };
+    
+    // @function setVolume
+    // @description Update sound file to alter current volume.
+    // @parameter {Number} volume
+    
+    songPlayer.setVolume = function (volume) {
+      if (currentBuzzObject) {
+        currentBuzzObject.setVolume(volume);
+      }
+    };
     
     return songPlayer;
   }
